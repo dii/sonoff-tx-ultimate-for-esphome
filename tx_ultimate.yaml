@@ -363,7 +363,6 @@ light:
       - random:
           name: "Random"
       - strobe:
-      - flicker:
       - lambda:
           name: "Lambda"
           update_interval: 1s
@@ -390,48 +389,29 @@ light:
           speed: 30
           width: 8
       - addressable_color_wipe:
-          name: "Color Wipe"
+          name: "Color Wipe Blue-Black"
+          colors:
+            - red: 0%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 3
       - addressable_scan:
       - addressable_twinkle:
       - addressable_random_twinkle:
       - addressable_fireworks:
+          name: "Fireworks"
+          update_interval: 32ms
+          spark_probability: 10%
+          use_random_color: true
+          fade_out_rate: 120
       - addressable_flicker:
-      - addressable_lambda:
-          name: "Addressable lambda"
-          update_interval: 16ms
-          lambda: |-
-            // it.size() - Number of LEDs
-            // it[num] - Access the LED at index num.
-            // Set the LED at num to the given r, g, b values
-            // it[num] = Color(r, g, b);
-            // Get the color at index num (Color instance)
-            // it[num].get();
-  
-            // Example: Simple color wipe
-            for (int i = it.size() - 1; i > 0; i--) {
-              it[i] = it[i - 1].get();
-            }
-            it[0] = Color::random_color();
-  
-            // Bonus: use .range() and .all() to set many LEDs without having to write a loop.
-            it.range(0, 50) = Color::BLACK;
-            it.all().fade_to_black(10);
-      - automation:
-          name: "Automation"
-          sequence:
-            - light.addressable_set:
-                id: leds
-                red: 100%
-                green: 100%
-                blue: 100%
-            - delay: 100ms
-            - light.addressable_set:
-                id: leds
-                range_from: 0
-                range_to: 20
-                red: 100%
-                green: 0%
-                blue: 0%
+          name: "Flicker"
+          update_interval: 32ms
+          intensity: 15%
 
     on_turn_off:
       then:
