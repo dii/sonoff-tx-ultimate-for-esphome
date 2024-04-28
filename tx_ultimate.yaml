@@ -364,6 +364,15 @@ light:
           name: "Pulse"
           transition_length: 1.4s
           update_interval: 1s
+      - addressable_color_cycler:
+          name: "Color Cycle"
+          transition_length: 5s  # Duration for each color transition
+          colors:
+            - red
+            - green
+            - blue
+            - yellow
+            - purple
 
     on_turn_off:
       then:
