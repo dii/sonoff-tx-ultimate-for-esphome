@@ -365,17 +365,17 @@ light:
           transition_length: 1.4s
           update_interval: 1s
       - addressable_color_wipe:
-          name: Color Wipe Effect With Custom Values
+          name: "Color Wipe"
           colors:
             - red: 100%
               green: 100%
               blue: 100%
-              num_leds: 1
+              num_leds: 3
             - red: 0%
               green: 0%
               blue: 0%
-              num_leds: 1
-          add_led_interval: 100ms
+              num_leds: 3
+          add_led_interval: 250ms
           reverse: false
 
     on_turn_off:
