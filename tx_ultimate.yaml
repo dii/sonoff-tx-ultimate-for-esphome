@@ -369,7 +369,7 @@ light:
           update_interval: 1s
           lambda: |-
             static int state = 0;
-            auto call = id(my_light).turn_on();
+            auto call = id(leds).turn_on();
             // Transition of 1000ms = 1s
             call.set_transition_length(1000);
             if (state == 0) {
@@ -420,13 +420,13 @@ light:
           name: "Automation"
           sequence:
             - light.addressable_set:
-                id: my_light
+                id: leds
                 red: 100%
                 green: 100%
                 blue: 100%
             - delay: 100ms
             - light.addressable_set:
-                id: my_light
+                id: leds
                 range_from: 0
                 range_to: 20
                 red: 100%
