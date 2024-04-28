@@ -377,7 +377,6 @@ light:
               num_leds: 1
           add_led_interval: 100ms
           reverse: false
-          gradient: false
 
     on_turn_off:
       then:
