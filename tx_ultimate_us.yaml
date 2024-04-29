@@ -366,14 +366,140 @@ light:
     id: leds
     default_transition_length: 0.7s
     effects:
-      - addressable_rainbow:
-          name: "Rainbow"
-          speed: 30
-          width: 8
       - pulse:
           name: "Pulse"
           transition_length: 1.4s
           update_interval: 1s
+      - random:
+          name: "Random"
+      - strobe:
+      - addressable_rainbow:
+          name: "Rainbow"
+          speed: 30
+          width: 8
+      - addressable_color_wipe:
+          name: "Color Wipe Blue-Black"
+          colors:
+            - red: 0%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Blue-LightGreen"
+          colors:
+            - red: 0%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 50%
+              green: 100%
+              blue: 50%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Blue-LightBlue"
+          colors:
+            - red: 0%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 50%
+              green: 50%
+              blue: 100%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Red-Black"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 0%
+              num_leds: 4
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Red-LightGreen"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 0%
+              num_leds: 4
+            - red: 50%
+              green: 100%
+              blue: 50%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Red-LightRed"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 0%
+              num_leds: 4
+            - red: 100%
+              green: 50%
+              blue: 50%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Purple-Black"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Purple-LightGreen"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 50%
+              green: 100%
+              blue: 50%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Purple-LightBlue"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 50%
+              green: 50%
+              blue: 100%
+              num_leds: 3                   
+      - addressable_color_wipe:
+          name: "Color Wipe Purple-LightRed"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 100%
+              green: 50%
+              blue: 50%
+              num_leds: 3
+      - addressable_scan:
+      - addressable_twinkle:
+      - addressable_random_twinkle:
+      - addressable_fireworks:
+          name: "Fireworks"
+          update_interval: 32ms
+          spark_probability: 10%
+          use_random_color: true
+          fade_out_rate: 120
+      - addressable_flicker:
+          name: "Flicker"
+          update_interval: 32ms
+          intensity: 15%
 
     on_turn_off:
       then:
