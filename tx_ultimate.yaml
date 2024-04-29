@@ -367,7 +367,7 @@ light:
             } else {
               // All LEDs are on, reset the effect
               step = 0;
-              id(effect).turn_off();  // Turn off the effect
+              id(leds).turn_off();  // Turn off the effect
             }
       - pulse:
           name: "Pulse"
