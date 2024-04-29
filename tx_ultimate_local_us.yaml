@@ -34,13 +34,13 @@ substitutions:
   multi_touch_color: "{0,0,0}"
   multi_touch_effect: "Rainbow"
 
-  swipe_1_brightness: "1"
-  swipe_1_color: "{0,100,0}"
-  swipe_1_effect: ""
+  swipe_left_brightness: "1"
+  swipe_left_color: "{0,100,0}"
+  swipe_left_effect: ""
 
-  swipe_2_brightness: "1"
-  swipe_2_color: "{100,0,70}"
-  swipe_2_effect: ""
+  swipe_right_brightness: "1"
+  swipe_right_color: "{100,0,70}"
+  swipe_right_effect: ""
 
   relay_1_pin: GPIO18
   relay_2_pin: GPIO17
@@ -100,10 +100,10 @@ esphome:
           id: multi_touch
           state: OFF
       - binary_sensor.template.publish:
-          id: swipe_1
+          id: swipe_left
           state: OFF
       - binary_sensor.template.publish:
-          id: swipe_2
+          id: swipe_right
           state: OFF
       - binary_sensor.template.publish:
           id: long_press
@@ -168,14 +168,14 @@ globals:
     type: int [3]
     restore_value: no
     initial_value: ${multi_touch_color}
-  - id: swipe_1_color
+  - id: swipe_left_color
     type: int [3]
     restore_value: no
-    initial_value: ${swipe_1_color}
-  - id: swipe_2_color
+    initial_value: ${swipe_left_color}
+  - id: swipe_right_color
     type: int [3]
     restore_value: no
-    initial_value: ${swipe_2_color}
+    initial_value: ${swipe_right_color}
   - id: touch_color
     type: int [3]
     restore_value: no
@@ -244,21 +244,21 @@ binary_sensor:
 
   - platform: template
     name: "Swipe 1"
-    id: swipe_1
+    id: swipe_left
     on_press:
       - delay: ${button_on_time}
       - binary_sensor.template.publish:
-          id: swipe_1
+          id: swipe_left
           state: OFF
       - script.execute: refresh_led_default
 
   - platform: template
     name: "Swipe_2"
-    id: swipe_2
+    id: swipe_right
     on_press:
       - delay: ${button_on_time}
       - binary_sensor.template.publish:
-          id: swipe_2
+          id: swipe_right
           state: OFF
       - script.execute: refresh_led_default
 
@@ -657,29 +657,29 @@ tx_ultimate_touch:
     - lambda: >
         ESP_LOGD("tx_ultimate_touch.on_release", "Release Position: %d / State: %d", touch.x, touch.state);
 
-  on_swipe_1:
-    - script.execute: led_on_swipe_1
+  on_swipe_left:
+    - script.execute: led_on_swipe_left
 
     - switch.turn_on: vibra
 
     - binary_sensor.template.publish:
-        id: swipe_1
+        id: swipe_left
         state: ON
 
     - lambda: >
-        ESP_LOGD("tx_ultimate_touch.on_swipe_1", "Swipe 1 Position: %d / State: %d", touch.x, touch.state);
+        ESP_LOGD("tx_ultimate_touch.on_swipe_left", "Swipe 1 Position: %d / State: %d", touch.x, touch.state);
 
-  on_swipe_2:
-    - script.execute: led_on_swipe_2
+  on_swipe_right:
+    - script.execute: led_on_swipe_right
 
     - switch.turn_on: vibra
 
     - binary_sensor.template.publish:
-        id: swipe_2
+        id: swipe_right
         state: ON
 
     - lambda: >
-        ESP_LOGD("tx_ultimate_touch.on_swipe_2", "Swipe Right Position: %d / State: %d", touch.x, touch.state);
+        ESP_LOGD("tx_ultimate_touch.on_swipe_right", "Swipe Right Position: %d / State: %d", touch.x, touch.state);
 
   on_full_touch_release:
     - script.execute: led_on_full_touch
@@ -896,27 +896,27 @@ script:
       - delay: 6s
       - script.execute: refresh_led_default
 
-  - id: led_on_swipe_1
+  - id: led_on_swipe_left
     mode: restart
     then:
       - light.turn_on:
           id: leds_top
-          brightness: ${swipe_1_brightness}
-          red: !lambda "return id(swipe_1_color)[0]/100.0;"
-          green: !lambda "return id(swipe_1_color)[1]/100.0;"
-          blue: !lambda "return id(swipe_1_color)[2]/100.0;"
-          effect: ${swipe_1_effect}
+          brightness: ${swipe_left_brightness}
+          red: !lambda "return id(swipe_left_color)[0]/100.0;"
+          green: !lambda "return id(swipe_left_color)[1]/100.0;"
+          blue: !lambda "return id(swipe_left_color)[2]/100.0;"
+          effect: ${swipe_left_effect}
 
-  - id: led_on_swipe_2
+  - id: led_on_swipe_right
     mode: restart
     then:
       - light.turn_on:
           id: leds_top
-          brightness: ${swipe_2_brightness}
-          red: !lambda "return id(swipe_2_color)[0]/100.0;"
-          green: !lambda "return id(swipe_2_color)[1]/100.0;"
-          blue: !lambda "return id(swipe_2_color)[2]/100.0;"
-          effect: ${swipe_2_effect}
+          brightness: ${swipe_right_brightness}
+          red: !lambda "return id(swipe_right_color)[0]/100.0;"
+          green: !lambda "return id(swipe_right_color)[1]/100.0;"
+          blue: !lambda "return id(swipe_right_color)[2]/100.0;"
+          effect: ${swipe_right_effect}
 
   - id: led_on_full_touch
     mode: restart
