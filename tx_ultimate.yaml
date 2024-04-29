@@ -362,7 +362,7 @@ light:
           lambda: |-
             static int step = 0;
             if (step < it.size() /2) {
-              it[step] = CRGB::White;  // Turn on the current LED
+              it[step] = Color::White;  // Turn on the current LED
               step++;
             } else {
               // All LEDs are on, reset the effect
