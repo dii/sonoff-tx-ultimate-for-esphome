@@ -77,21 +77,21 @@ esphome:
           state: OFF
       - if:
           condition:
-            lambda: "return (${relay_count}>=1;"
+            lambda: "return (${relay_count}>1);"
           then:
             - binary_sensor.template.publish:
                 id: touchfield_2
                 state: OFF
       - if:
           condition:
-            lambda: "return (${relay_count}>=2;"
+            lambda: "return (${relay_count}>2);"
           then:
             - binary_sensor.template.publish:
                 id: touchfield_3
                 state: OFF
       # - if:
       #     condition:
-      #       lambda: "return (${relay_count}>=3;"
+      #       lambda: "return (${relay_count}>3);"
       #     then:
       #       - binary_sensor.template.publish:
       #           id: touchfield_4
