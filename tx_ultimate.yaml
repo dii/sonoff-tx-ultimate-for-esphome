@@ -357,18 +357,18 @@ light:
     default_transition_length: 0s
     effects:
       - addressable_lambda:
-        name: "Turn on half of lights"
-        update_interval: 200ms
-        lambda: |-
-          static int step = 0;
-          if (step < it.size() /2) {
-            it[step] = CRGB::White;  // Turn on the current LED
-            step++;
-          } else {
-            // All LEDs are on, reset the effect
-            step = 0;
-            id(effect).turn_off();  // Turn off the effect
-          }
+          name: "Turn on half of lights"
+          update_interval: 200ms
+          lambda: |-
+            static int step = 0;
+            if (step < it.size() /2) {
+              it[step] = CRGB::White;  // Turn on the current LED
+              step++;
+            } else {
+              // All LEDs are on, reset the effect
+              step = 0;
+              id(effect).turn_off();  // Turn off the effect
+            }
       - pulse:
           name: "Pulse"
           transition_length: 1.4s
