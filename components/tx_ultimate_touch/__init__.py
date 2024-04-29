@@ -1,11 +1,8 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import uart
-from esphome.const import (
-    CONF_ID,
-)
-
 from esphome import automation
+from esphome.components import uart
+from esphome.const import CONF_ID
 
 CODEOWNERS = ["@SmartHome-yourself"]
 DEPENDENCIES = ['uart']
@@ -18,8 +15,8 @@ CONF_UART = "uart"
 CONF_ON_PRESS = "on_press"
 CONF_ON_RELEASE = "on_release"
 
-CONF_ON_SWIPE_LEFT = "on_swipe_left"
-CONF_ON_SWIPE_RIGHT = "on_swipe_right"
+CONF_ON_SWIPE_1 = "on_swipe_1"
+CONF_ON_SWIPE_2 = "on_swipe_2"
 
 CONF_ON_FULL_TOUCH_RELEASE = "on_full_touch_release"
 CONF_ON_LONG_TOUCH_RELEASE = "on_long_touch_release"
@@ -46,8 +43,8 @@ CONFIG_SCHEMA = cv.Schema({
 
     cv.Optional(CONF_ON_PRESS): automation.validate_automation(single=True),
     cv.Optional(CONF_ON_RELEASE): automation.validate_automation(single=True),
-    cv.Optional(CONF_ON_SWIPE_LEFT): automation.validate_automation(single=True),
-    cv.Optional(CONF_ON_SWIPE_RIGHT): automation.validate_automation(single=True),
+    cv.Optional(CONF_ON_SWIPE_1): automation.validate_automation(single=True),
+    cv.Optional(CONF_ON_SWIPE_2): automation.validate_automation(single=True),
     cv.Optional(CONF_ON_FULL_TOUCH_RELEASE): automation.validate_automation(single=True),
     cv.Optional(CONF_ON_LONG_TOUCH_RELEASE): automation.validate_automation(single=True),
 
@@ -75,18 +72,18 @@ async def register_tx_ultimate_touch(var, config):
             config[CONF_ON_RELEASE],
         )
 
-    if CONF_ON_SWIPE_LEFT in config:
+    if CONF_ON_SWIPE_1 in config:
         await automation.build_automation(
-            var.get_swipe_left_trigger(),
+            var.get_swipe_1_trigger(),
             [(TouchPoint, "touch")],
-            config[CONF_ON_SWIPE_LEFT],
+            config[CONF_ON_SWIPE_1],
         )
 
-    if CONF_ON_SWIPE_RIGHT in config:
+    if CONF_ON_SWIPE_2 in config:
         await automation.build_automation(
-            var.get_swipe_right_trigger(),
+            var.get_swipe_2_trigger(),
             [(TouchPoint, "touch")],
-            config[CONF_ON_SWIPE_RIGHT],
+            config[CONF_ON_SWIPE_2],
         )
 
     if CONF_ON_FULL_TOUCH_RELEASE in config:
