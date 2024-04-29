@@ -4,6 +4,11 @@ substitutions:
 
   relay_count: "2"
 
+  toggle_relay_1_on_touch: "true"
+  toggle_relay_2_on_touch: "true"
+  toggle_relay_3_on_touch: "true"
+  toggle_relay_4_on_touch: "true"
+
   vibra_time: 150ms
   button_on_time: 500ms
 
@@ -111,6 +116,10 @@ logger:
     tx_ultimate_touch: INFO
     uart_debug: INFO
 
+dashboard_import:
+  package_import_url: github://dii/sonoff-tx-ultimate-for-esphome/tx_ultimate_local_us.yaml@main
+  import_full_config: false
+
 api:
 
 ota:
@@ -127,7 +136,7 @@ external_components:
 #  - source: /config/esphome/my_components
   - source:
       type: git
-      url: https://github.com/SmartHome-yourself/sonoff-tx-ultimate-for-esphome
+      url: https://github.com/dii/sonoff-tx-ultimate-for-esphome
       ref: main
     components: [tx_ultimate_touch]
     
@@ -170,7 +179,11 @@ binary_sensor:
     name: "Touchfield 1"
     id: touchfield_1
     on_press:
-      - switch.toggle: relay_1
+      - if:
+          condition:
+            lambda: "return ${toggle_relay_1_on_touch};"
+          then:
+            - switch.toggle: relay_1
       - delay: ${button_on_time}
       - binary_sensor.template.publish:
           id: touchfield_1
@@ -181,7 +194,11 @@ binary_sensor:
     name: "Touchfield 2"
     id: touchfield_2
     on_press:
-      - switch.toggle: relay_2
+      - if:
+          condition:
+            lambda: "return ${toggle_relay_2_on_touch};"
+          then:
+            - switch.toggle: relay_2
       - delay: ${button_on_time}
       - binary_sensor.template.publish:
           id: touchfield_2
@@ -192,7 +209,11 @@ binary_sensor:
     name: "Touchfield 3"
     id: touchfield_3
     on_press:
-      - switch.toggle: relay_3
+      - if:
+          condition:
+            lambda: "return ${toggle_relay_3_on_touch};"
+          then:
+            - switch.toggle: relay_3
       - delay: ${button_on_time}
       - binary_sensor.template.publish:
           id: touchfield_3
@@ -203,7 +224,11 @@ binary_sensor:
     name: "Touchfield 4"
     id: touchfield_4
     on_press:
-      - switch.toggle: relay_4
+      - if:
+          condition:
+            lambda: "return ${toggle_relay_4_on_touch};"
+          then:
+            - switch.toggle: relay_4
       - delay: ${button_on_time}
       - binary_sensor.template.publish:
           id: touchfield_4
@@ -360,17 +385,160 @@ light:
     num_leds: 32
     name: "NeoPixel Light"
     id: leds
-    default_transition_length: 0.7s
+    default_transition_length: 0.1s
     effects:
-      - addressable_rainbow:
-          name: "Rainbow"
-          speed: 30
-          width: 8
+      - addressable_lambda:
+          name: "Turn on half of lights"
+          update_interval: 200ms
+          lambda: |-
+            static int step = 0;
+            if (initial_run) {
+              id(leds).turn_off();  // Turn off all LEDs
+              step = 0;
+            }
+            if (step < it.size() /2) {
+              it[step] = Color::WHITE;  // Turn on the current LED
+              step++;
+            } else {
+              // All LEDs are on, reset the effect
+              step = 0;
+              id(leds).turn_off();  // Turn off the effect
+            }
       - pulse:
           name: "Pulse"
           transition_length: 1.4s
           update_interval: 1s
-
+      - random:
+          name: "Random"
+      - strobe:
+      - addressable_rainbow:
+          name: "Rainbow"
+          speed: 30
+          width: 8
+      - addressable_color_wipe:
+          name: "Color Wipe Blue-Black"
+          colors:
+            - red: 0%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Blue-LightGreen"
+          colors:
+            - red: 0%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 50%
+              green: 100%
+              blue: 50%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Blue-LightBlue"
+          colors:
+            - red: 0%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 50%
+              green: 50%
+              blue: 100%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Red-Black"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 0%
+              num_leds: 4
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Red-LightGreen"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 0%
+              num_leds: 4
+            - red: 50%
+              green: 100%
+              blue: 50%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Red-LightRed"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 0%
+              num_leds: 4
+            - red: 100%
+              green: 50%
+              blue: 50%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Purple-Black"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Purple-LightGreen"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 50%
+              green: 100%
+              blue: 50%
+              num_leds: 3
+      - addressable_color_wipe:
+          name: "Color Wipe Purple-LightBlue"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 50%
+              green: 50%
+              blue: 100%
+              num_leds: 3                   
+      - addressable_color_wipe:
+          name: "Color Wipe Purple-LightRed"
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 100%
+              num_leds: 4
+            - red: 100%
+              green: 50%
+              blue: 50%
+              num_leds: 3
+      - addressable_scan:
+      - addressable_twinkle:
+      - addressable_random_twinkle:
+      - addressable_fireworks:
+          name: "Fireworks"
+          update_interval: 32ms
+          spark_probability: 10%
+          use_random_color: true
+          fade_out_rate: 120
+      - addressable_flicker:
+          name: "Flicker"
+          update_interval: 32ms
+          intensity: 15%
+          
     on_turn_off:
       then:
         - script.execute: refresh_led_default
